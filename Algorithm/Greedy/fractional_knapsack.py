@@ -15,13 +15,14 @@ def fractional_knapsack(items: List[Tuple], capacity: int) -> Dict[Tuple, float]
         sorted_density.append((indx, elm[0] / elm[1]))
     sorted_density.sort(key=lambda x : x[1], reverse=True)
     for index, _ in sorted_density:
+        item_weight = items[index][1]
         if capacity == 0:
             break
-        elif capacity >= items[index][1]:
+        elif capacity >= item_weight:
             result[items[index]] = 1
-            capacity -= items[index][1]
+            capacity -= item_weight
         else:
-            result[items[index]] = capacity / items[index][1]
+            result[items[index]] = capacity / item_weight
             break
     return result
 
