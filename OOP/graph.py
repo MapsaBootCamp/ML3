@@ -34,8 +34,22 @@ class Graph:
                 result += "\n"
         return result
 
+    def find_all_node_can_go(self, node, neighbor_can_go=[]) -> List:
+        for neighbor in self._adj_mat[node]:
+            if neighbor not in neighbor_can_go:
+                neighbor_can_go.append(neighbor)
+                self.find_all_node_can_go(neighbor, neighbor_can_go)
+        return neighbor_can_go
+
     def isconnected(self):
-        pass
+        if (len(list(self._adj_mat.keys())) < 2):
+            return True
+        result = self.find_all_node_can_go(list(self._adj_mat.keys())[0])
+        print(result)
+        if len(result) == len(list(self._adj_mat.keys())):
+            return True
+        else:
+            return False
 
     def find_path(self, node1, node2):
         pass
@@ -57,5 +71,11 @@ g1.add_edge(3, 5)
 g1.add_edge(4, 5)
 g1.add_edge(6, 5)
 g1.add_edge(6, 4)
-
+g1.add_edge(7, 5)
 print(g1)
+
+print(g1.isconnected())
+
+# my_dict = {1: 1}
+
+# print(len(list(my_dict.keys())))
