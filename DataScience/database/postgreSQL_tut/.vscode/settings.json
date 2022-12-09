@@ -1,0 +1,14 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "ml_mapsa",
+      "database": "ml",
+      "username": "mapsa",
+      "password": "mapsa1234"
+    }
+  ]
+}
