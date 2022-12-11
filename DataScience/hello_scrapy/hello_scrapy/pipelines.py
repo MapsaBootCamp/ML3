@@ -9,5 +9,5 @@ class HelloScrapyPipeline:
 
 class TestOrderPipline:
     def process_item(self, item, spider):
-        print("test order +++++++++++++++++++++++++++++++++++++", item)
+        print("###########################################", spider.name)
         return item

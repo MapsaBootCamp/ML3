@@ -1,9 +1,9 @@
 import scrapy
-from ..items import HelloScrapyItem
+from ..items import JobinjaItem
 
 
-class QuotespiderSpider(scrapy.Spider):
-    name = 'quotespider'
+class JoninjaspiderSpider(scrapy.Spider):
+    name = 'jobinja'
     start_urls = ['https://jobinja.ir/jobs?&filters%5Bjob_categories%5D%5B%5D=&filters%5Bkeywords%5D%5B0%5D=python&filters%5Blocations%5D%5B%5D=&preferred_before=1669970813&sort_by=relevance_desc']
 
     def parse(self, response):
@@ -12,17 +12,23 @@ class QuotespiderSpider(scrapy.Spider):
         for item in work_positions:
             title = item.css("h3 a::text").get().strip()
             link = item.css("h3 a::attr(href)").get()
-            # if link:
-            #     yield response.follow(link, callback=self.parser_safe_dakjheloi)
             date_req = item.css("h3 span::text").get().strip()
             company = item.css("ul li span::text")[0].extract().strip()
             city = item.css("ul li span::text")[1].extract().strip()
-            shoghl_info = HelloScrapyItem(
+            shoghl_info = JobinjaItem(
                 title=title, link=link, company=company, date_req=date_req, city=city)
-            yield shoghl_info
+            if link:
+                request = scrapy.Request(
+                    link, callback=self.parser_detail_page)
+                request.meta['item'] = shoghl_info
+                yield request
+            else:
+                yield shoghl_info
         next_page = response.css("div.paginator li a::attr(href)")[-1].get()
         if next_page:
             yield response.follow(next_page, callback=self.parse)
 
-    def parser_safe_dakjheloi(self, response):
-        yield response.css("title")
+    def parser_detail_page(self, response):
+        item = response.meta['item']
+        item['desc_item'] = response.css("title::text").get()
+        yield item

@@ -7,8 +7,8 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+FEED_EXPORT_ENCODING = 'utf-8'
 BOT_NAME = 'hello_scrapy'
-
 SPIDER_MODULES = ['hello_scrapy.spiders']
 NEWSPIDER_MODULE = 'hello_scrapy.spiders'
 
